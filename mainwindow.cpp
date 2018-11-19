@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <QColor>
+#include <QSettings>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -56,14 +57,22 @@ void MainWindow::showtext(double n)
 
 void MainWindow::on_button1_clicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"选择文件","./","files(*.*)");
+    QSettings setting("./Setting.ini", QSettings::IniFormat);
+    QString lastPath = setting.value("File1Path").toString();
+    if(lastPath.isEmpty()) lastPath = "./";
+    QString s = QFileDialog::getOpenFileName(this,"选择文件",lastPath,"files(*.*)");
     ui->lineEdit1->setText(s);
+    if(!s.isEmpty()) setting.setValue("File1Path",s);
 }
 
 void MainWindow::on_button2_clicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"选择文件","./","files(*.*)");
+    QSettings setting("./Setting.ini", QSettings::IniFormat);
+    QString lastPath = setting.value("File2Path").toString();
+    if(lastPath.isEmpty()) lastPath = "./";
+    QString s = QFileDialog::getOpenFileName(this,"选择文件",lastPath,"files(*.*)");
     ui->lineEdit2->setText(s);
+    if(!s.isEmpty()) setting.setValue("File2Path",s);
 }
 
 void MainWindow::setTextColor(int texteditnum, const QColor &color)
@@ -233,7 +242,7 @@ QMap<int, int> MainWindow::lcs()
 }
 
 QMap<int, int> MainWindow::lcsx()
-{//采用自主改进的LCS的算法
+{//采用自主改进的LCSX算法
     QMap<int, int> matchmap;
     QString linetext1;
     QString linetext2;
