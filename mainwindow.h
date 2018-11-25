@@ -21,10 +21,11 @@ public:
     void showtext(int n);
     void showtext(double n);
     int getfilelist();
+    const char *detectEncoding(QString buffer);
     QMap<int, int> lcs();
     QMap<int, int> lcsx();
     void setTextColor(int texteditnum, const QColor &color);
-    const char *detectEncoding(QString buffer);
+    void hilightLines(int texteditnum, const QColor &color, int &emptyhl, int rep);
 
 private slots:
     void on_button1_clicked();

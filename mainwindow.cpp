@@ -75,24 +75,6 @@ void MainWindow::on_button2_clicked()
     if(!s.isEmpty()) setting.setValue("File2Path",s);
 }
 
-void MainWindow::setTextColor(int texteditnum, const QColor &color)
-{
-    QTextCharFormat fmt;//文本字符格式
-    fmt.setBackground(color);// 设为color色
-    if(texteditnum == 1)
-    {
-        QTextCursor cursor = ui->plainTextEdit1->textCursor();//获取文本光标
-        cursor.mergeCharFormat(fmt);//光标后的文字就用该格式显示
-        ui->plainTextEdit1->mergeCurrentCharFormat(fmt);//textEdit使用当前的字符格式
-    }
-    if(texteditnum == 2)
-    {
-        QTextCursor cursor = ui->plainTextEdit2->textCursor();//获取文本光标
-        cursor.mergeCharFormat(fmt);//光标后的文字就用该格式显示
-        ui->plainTextEdit2->mergeCurrentCharFormat(fmt);//textEdit使用当前的字符格式
-    }
-}
-
 const char *MainWindow::detectEncoding(QString fname)
 {//使用开源代码uchardet
     uchardet_t  handle = uchardet_new();
@@ -162,6 +144,51 @@ int MainWindow::getfilelist()
     file1.close();
     file2.close();
     return 1;
+}
+
+void MainWindow::setTextColor(int texteditnum, const QColor &color)
+{
+    QTextCharFormat fmt;//文本字符格式
+    fmt.setBackground(color);// 设为color色
+    if(texteditnum == 1) ui->plainTextEdit1->mergeCurrentCharFormat(fmt);//textEdit使用当前的字符格式
+    if(texteditnum == 2) ui->plainTextEdit2->mergeCurrentCharFormat(fmt);//textEdit使用当前的字符格式
+}
+
+void MainWindow::hilightLines(int texteditnum, const QColor &color, int &emptyhl, int rep)
+{
+    QList<QTextEdit::ExtraSelection> extraSelections;//提供一种方式显示选择的文本
+    int currentline;
+    if(texteditnum == 1) extraSelections = ui->plainTextEdit1->extraSelections();
+    if(texteditnum == 2) extraSelections = ui->plainTextEdit2->extraSelections();
+    if(emptyhl!=-1)
+    {
+        QTextEdit::ExtraSelection sc;
+        sc.format.setBackground(color);
+        sc.format.setProperty(QTextFormat::FullWidthSelection, true);
+        if(texteditnum == 1) sc.cursor = ui->plainTextEdit1->textCursor();
+        if(texteditnum == 2) sc.cursor = ui->plainTextEdit2->textCursor();
+        currentline = sc.cursor.blockNumber();
+        sc.cursor.movePosition(QTextCursor::Up, QTextCursor::MoveAnchor, currentline-emptyhl);
+        extraSelections.append(sc);
+        emptyhl = -1;
+    }
+    if(rep == 0)//补红绿行就不运行
+    {
+        QTextEdit::ExtraSelection selection;
+        selection.format.setBackground(color);
+        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+        if(texteditnum == 1) selection.cursor = ui->plainTextEdit1->textCursor();
+        if(texteditnum == 2) selection.cursor = ui->plainTextEdit2->textCursor();
+        currentline = selection.cursor.blockNumber();
+        if(selection.cursor.columnNumber()!=0)
+        {
+            selection.cursor.movePosition(QTextCursor::StartOfLine);
+            extraSelections.append(selection);
+        }
+        else emptyhl = currentline;
+    }
+    if(texteditnum == 1) ui->plainTextEdit1->setExtraSelections(extraSelections);//设置高亮
+    if(texteditnum == 2) ui->plainTextEdit2->setExtraSelections(extraSelections);//设置高亮
 }
 
 QMap<int, int> MainWindow::lcs()
@@ -397,46 +424,48 @@ void MainWindow::on_btncon_clicked()
     int addline = 0; //file2增加的行数
     QString linetext1;
     QString linetext2;
+    int emptyhl1 = -1;//空行高亮位置记录
+    int emptyhl2 = -1;//空行高亮位置记录
     setTextColor(1, QColor(255, 255, 255));//白色
     setTextColor(2, QColor(255, 255, 255));//白色
 
-    QMap<int, int> matchmap;
-
     qDebug()<<"lcsx开始"<<time.elapsed()/1000.0<<"s";
-    matchmap = lcsx();
+    QMap<int, int> matchmap = lcsx();
     qDebug()<<"lcsx结束"<<time.elapsed()/1000.0<<"s";
+
+    matchmap.insert(filelist1.length(), filelist2.length());
 
     qDebug()<<"输出开始"<<time.elapsed()/1000.0<<"s";
     QMap<int, int>::iterator it;
     for (it = matchmap.begin(); it != matchmap.end(); it++)
     {//map会自动按key升序排序
-        linetext1 = filelist1.at(i);
-        linetext2 = filelist2.at(j);
+        if(i!=filelist1.length()) linetext1 = filelist1.at(i);
+        if(j!=filelist2.length()) linetext2 = filelist2.at(j);
         if(i < it.key())
         {
-            setTextColor(1, QColor(255, 210, 210));//红色
             while(i < it.key())
             {
                 ui->plainTextEdit1->appendPlainText(linetext1);
+                hilightLines(1, QColor(255, 210, 210), emptyhl1, 0);//红色
                 delline++;
                 i++;
+                if(i == filelist1.length()) break;
                 linetext1 = filelist1.at(i);
             }
-            setTextColor(1, QColor(255, 255, 255));//白色
         }
         if(i == it.key())
         {
             if(j < it.value())
             {
-                setTextColor(2, QColor(210, 255, 210));//绿色
                 while(j < it.value())
                 {
                     ui->plainTextEdit2->appendPlainText(linetext2);
+                    hilightLines(2, QColor(210, 255, 210), emptyhl2, 0);//绿色
                     addline++;
                     j++;
+                    if(j == filelist2.length()) break;
                     linetext2 = filelist2.at(j);
                 }
-                setTextColor(2, QColor(255, 255, 255));//白色
             }
             if(addline <= delline)
             {
@@ -448,51 +477,31 @@ void MainWindow::on_btncon_clicked()
                 addline = addline - delline;
                 delline = 0;
             }
-            setTextColor(1, QColor(230, 230, 230));//灰色
-            setTextColor(2, QColor(230, 230, 230));//灰色
             while(addline > 0)
             {
-                ui->plainTextEdit1->appendPlainText(QString("%1").fill(' ', 60));
+                ui->plainTextEdit1->appendPlainText(" ");
+                if(emptyhl1 != -1) hilightLines(1, QColor(255, 210, 210), emptyhl1, 1);//红色
+                hilightLines(1, QColor(230, 230, 230), emptyhl1, 0);//灰色
                 addline--;
             }
             while(delline > 0)
             {
-                ui->plainTextEdit2->appendPlainText(QString("%1").fill(' ', 60));
+                ui->plainTextEdit2->appendPlainText(" ");
+                if(emptyhl2 != -1) hilightLines(2, QColor(210, 255, 210), emptyhl2, 1);//绿色
+                hilightLines(2, QColor(230, 230, 230), emptyhl2, 0);//灰色
                 delline--;
             }
-            setTextColor(1, QColor(255, 255, 255));//白色
-            setTextColor(2, QColor(255, 255, 255));//白色
-            if(j == it.value())
+            if(j == it.value() && j != filelist2.length())
             {
                 ui->plainTextEdit1->appendPlainText(linetext1);
                 ui->plainTextEdit2->appendPlainText(linetext2);
+                if(emptyhl1 != -1) hilightLines(1, QColor(255, 210, 210), emptyhl1, 1);//红色
+                if(emptyhl2 != -1) hilightLines(2, QColor(210, 255, 210), emptyhl2, 1);//绿色
                 //QApplication::processEvents();//实时显示，特别费时
                 i++;
                 j++;
             }
         }
-    }
-    while(i < filelist1.length())
-    {
-        linetext1 = filelist1.at(i);
-        setTextColor(1, QColor(255, 210, 210));//红色
-        ui->plainTextEdit1->appendPlainText(linetext1);
-        setTextColor(1, QColor(255, 255, 255));//白色
-        setTextColor(2, QColor(230, 230, 230));//灰色
-        ui->plainTextEdit2->appendPlainText(QString("%1").fill(' ', 60));
-        setTextColor(2, QColor(255, 255, 255));//白色
-        i++;
-    }
-    while(j < filelist2.length())
-    {
-        linetext2 = filelist2.at(j);
-        setTextColor(2, QColor(210, 255, 210));//绿色
-        ui->plainTextEdit2->appendPlainText(linetext2);
-        setTextColor(2, QColor(255, 255, 255));//白色
-        setTextColor(1, QColor(230, 230, 230));//灰色
-        ui->plainTextEdit1->appendPlainText(QString("%1").fill(' ', 60));
-        setTextColor(1, QColor(255, 255, 255));//白色
-        j++;
     }
     qDebug()<<"输出结束"<<time.elapsed()/1000.0<<"s";
 }
