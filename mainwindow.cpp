@@ -437,6 +437,7 @@ void MainWindow::on_btncon_clicked()
 
     qDebug()<<"输出开始"<<time.elapsed()/1000.0<<"s";
     QMap<int, int>::iterator it;
+    qDebug()<<filelist1.length()<<filelist2.length();
     for (it = matchmap.begin(); it != matchmap.end(); it++)
     {//map会自动按key升序排序
         if(i!=filelist1.length()) linetext1 = filelist1.at(i);
@@ -495,12 +496,12 @@ void MainWindow::on_btncon_clicked()
             {
                 ui->plainTextEdit1->appendPlainText(linetext1);
                 ui->plainTextEdit2->appendPlainText(linetext2);
-                if(emptyhl1 != -1) hilightLines(1, QColor(255, 210, 210), emptyhl1, 1);//红色
-                if(emptyhl2 != -1) hilightLines(2, QColor(210, 255, 210), emptyhl2, 1);//绿色
                 //QApplication::processEvents();//实时显示，特别费时
                 i++;
                 j++;
             }
+            if(emptyhl1 != -1) hilightLines(1, QColor(255, 210, 210), emptyhl1, 1);//红色
+            if(emptyhl2 != -1) hilightLines(2, QColor(210, 255, 210), emptyhl2, 1);//绿色
         }
     }
     qDebug()<<"输出结束"<<time.elapsed()/1000.0<<"s";
