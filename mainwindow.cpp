@@ -416,8 +416,13 @@ void MainWindow::on_btncon_clicked()
     if(!getfilelist()) return;
     qDebug()<<"获取filelist结束"<<time.elapsed()/1000.0<<"s";
 
+    ui->plainTextEdit1->setStartPaint(0);
+    ui->plainTextEdit2->setStartPaint(0);//要在clear之前
     ui->plainTextEdit1->clear();
     ui->plainTextEdit2->clear();
+    ui->plainTextEdit1->clearGreyLine();
+    ui->plainTextEdit2->clearGreyLine();
+    QApplication::processEvents();//让程序处理那些还没有处理的事件，然后再把使用权返回给调用者
 
     int i=0, j=0;
     int delline = 0; //file1删掉的行数
@@ -436,8 +441,9 @@ void MainWindow::on_btncon_clicked()
     matchmap.insert(filelist1.length(), filelist2.length());
 
     qDebug()<<"输出开始"<<time.elapsed()/1000.0<<"s";
+    ui->plainTextEdit1->setStartPaint(1);
+    ui->plainTextEdit2->setStartPaint(1);
     QMap<int, int>::iterator it;
-    qDebug()<<filelist1.length()<<filelist2.length();
     for (it = matchmap.begin(); it != matchmap.end(); it++)
     {//map会自动按key升序排序
         if(i!=filelist1.length()) linetext1 = filelist1.at(i);
@@ -483,6 +489,7 @@ void MainWindow::on_btncon_clicked()
                 ui->plainTextEdit1->appendPlainText(" ");
                 if(emptyhl1 != -1) hilightLines(1, QColor(255, 210, 210), emptyhl1, 1);//红色
                 hilightLines(1, QColor(230, 230, 230), emptyhl1, 0);//灰色
+                ui->plainTextEdit1->addGreyLine();
                 addline--;
             }
             while(delline > 0)
@@ -490,6 +497,7 @@ void MainWindow::on_btncon_clicked()
                 ui->plainTextEdit2->appendPlainText(" ");
                 if(emptyhl2 != -1) hilightLines(2, QColor(210, 255, 210), emptyhl2, 1);//绿色
                 hilightLines(2, QColor(230, 230, 230), emptyhl2, 0);//灰色
+                ui->plainTextEdit2->addGreyLine();
                 delline--;
             }
             if(j == it.value() && j != filelist2.length())

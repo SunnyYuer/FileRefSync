@@ -62,7 +62,8 @@ SOURCES += main.cpp\
     uchardet/nsSJISProber.cpp \
     uchardet/nsUniversalDetector.cpp \
     uchardet/nsUTF8Prober.cpp \
-    uchardet/uchardet.cpp
+    uchardet/uchardet.cpp \
+    texteditor.cpp
 
 HEADERS  += mainwindow.h \
     uchardet/uchardet.h \
@@ -86,6 +87,7 @@ HEADERS  += mainwindow.h \
     uchardet/nsSJISProber.h \
     uchardet/nsUniversalDetector.h \
     uchardet/nsUTF8Prober.h \
-    uchardet/prmem.h
+    uchardet/prmem.h \
+    texteditor.h
 
 FORMS    += mainwindow.ui

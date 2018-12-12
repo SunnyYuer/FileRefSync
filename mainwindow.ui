@@ -86,7 +86,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QPlainTextEdit" name="plainTextEdit1">
+         <widget class="TextEditor" name="plainTextEdit1">
           <property name="font">
            <font>
             <pointsize>11</pointsize>
@@ -101,7 +101,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPlainTextEdit" name="plainTextEdit2">
+         <widget class="TextEditor" name="plainTextEdit2">
           <property name="font">
            <font>
             <pointsize>11</pointsize>
@@ -163,6 +163,13 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>TextEditor</class>
+   <extends>QPlainTextEdit</extends>
+   <header location="global">texteditor.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
