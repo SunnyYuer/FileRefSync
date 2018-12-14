@@ -91,3 +91,10 @@ HEADERS  += mainwindow.h \
     texteditor.h
 
 FORMS    += mainwindow.ui
+
+RC_ICONS = FileRefSync.ico
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+DISTFILES += \
+    android/AndroidManifest.xml
