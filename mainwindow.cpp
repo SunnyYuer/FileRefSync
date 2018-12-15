@@ -306,8 +306,9 @@ QMap<int, int> MainWindow::lcsx()
     }
     qDebug()<<"初始化结束"<<time.elapsed()/1000.0<<"s";
 
-    double rate = 1.0*N/M;
-    int del = (M==N)?1:0;//rate为1时，next要减1
+    double rate;
+    if(M>N && N==1) rate = -1.0;
+    else rate = (M>N)?(1.0*(M-1)/(N-1)):1.0;
     int next;
     int i=0, j=0;
     int itmp=0, jtmp=0;
@@ -322,8 +323,8 @@ QMap<int, int> MainWindow::lcsx()
         {
             linetext1 = flist1.at(i);
             linetext2 = flist2.at(j);
-            if(i == maxmatch) locai = i+1;
-            if(j == maxmatch) locaj = j+1;
+            if(i == maxmatch) locaj = j+1;//记录待补余行的i,j位置
+            if(j == maxmatch) locai = i+1;
             if(linetext1 == linetext2)
             {
                 if(i == 0 || j == 0) array[i][j] = 1;
@@ -337,7 +338,8 @@ QMap<int, int> MainWindow::lcsx()
                 else if(j == 0) array[i][j] = array[i-1][j];
                 else array[i][j] = (array[i-1][j]>=array[i][j-1])?array[i-1][j]:array[i][j-1];
             }
-            next = static_cast<int>(rate*(i+1)) - del;//下一行要算到的位置
+            if(rate < 0) break;
+            next = itmp + 1 - (static_cast<int>(rate*(j+1))-static_cast<int>(rate*jtmp));//下一行要算到的位置
             if(next <= maxmatch) break;
             else
             {
@@ -362,7 +364,11 @@ QMap<int, int> MainWindow::lcsx()
         if(itmp+1 == M || jtmp < maxmatch)
         {//这行算满了   或者    这行补余了
          //跳到下一行
-            if(jtmp+1 != N) itmp = static_cast<int>(rate*(itmp+1)) - del - 1;
+            if(jtmp+1 != N)
+            {
+                itmp = itmp - (static_cast<int>(rate*(jtmp+1))-static_cast<int>(rate*jtmp));
+                if(itmp < maxmatch) itmp = maxmatch-1;
+            }
             else itmp = M-1;
             jtmp++;
         }
@@ -399,7 +405,20 @@ QMap<int, int> MainWindow::lcsx()
         i--;j--;
     }
     qDebug()<<"回溯结束"<<time.elapsed()/1000.0<<"s";
-
+    /*
+    QFile file("log.txt");
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    for (int j = 0; j < 18; j++)
+    {
+        for (int i = 0; i < 18; i++)
+        {
+            file.write(QString("%1").arg(array[i][j], 4, 10, QLatin1Char(' ')).toUtf8());
+            file.write(" ");
+        }
+        file.write("\n");
+    }
+    file.close();
+    */
     for (int i = 0; i < M; i++)
     {
         delete[]array[i];
