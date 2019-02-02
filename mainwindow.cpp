@@ -435,8 +435,8 @@ void MainWindow::on_btncon_clicked()
     if(!getfilelist()) return;
     qDebug()<<"获取filelist结束"<<time.elapsed()/1000.0<<"s";
 
-    ui->plainTextEdit1->setStartPaint(0);
-    ui->plainTextEdit2->setStartPaint(0);//要在clear之前
+    ui->plainTextEdit1->setPaintState(0);
+    ui->plainTextEdit2->setPaintState(0);//要在clear之前
     ui->plainTextEdit1->clear();
     ui->plainTextEdit2->clear();
     ui->plainTextEdit1->clearGreyLine();
@@ -460,8 +460,8 @@ void MainWindow::on_btncon_clicked()
     matchmap.insert(filelist1.length(), filelist2.length());
 
     qDebug()<<"输出开始"<<time.elapsed()/1000.0<<"s";
-    ui->plainTextEdit1->setStartPaint(1);
-    ui->plainTextEdit2->setStartPaint(1);
+    ui->plainTextEdit1->setPaintState(1);
+    ui->plainTextEdit2->setPaintState(1);
     QMap<int, int>::iterator it;
     for (it = matchmap.begin(); it != matchmap.end(); it++)
     {//map会自动按key升序排序
@@ -532,6 +532,8 @@ void MainWindow::on_btncon_clicked()
         }
     }
     qDebug()<<"输出结束"<<time.elapsed()/1000.0<<"s";
+    ui->plainTextEdit1->setPaintState(2);
+    ui->plainTextEdit2->setPaintState(2);
 }
 
 void MainWindow::scrolbar1Moved(int value)

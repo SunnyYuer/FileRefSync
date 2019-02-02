@@ -12,7 +12,7 @@ public:
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
-    void setStartPaint(int sp);
+    void setPaintState(int sp);
     void addGreyLine();
     void clearGreyLine();
     int beforegl(int blocknumber);
@@ -26,7 +26,7 @@ private slots:
 
 private:
     QWidget *lineNumberArea;
-    int startpaint = 0;
+    int paintstate = 0;
     QList<int> greyline;
 };
 

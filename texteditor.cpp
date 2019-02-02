@@ -12,9 +12,9 @@ TextEditor::TextEditor(QWidget *parent) :
     updateLineNumberAreaWidth(0);
 }
 
-void TextEditor::setStartPaint(int sp)
-{
-    startpaint = sp;
+void TextEditor::setPaintState(int sp)
+{//0未开始，1开始，2完成
+    paintstate = sp;
 }
 
 int TextEditor::lineNumberAreaWidth()
@@ -26,7 +26,7 @@ int TextEditor::lineNumberAreaWidth()
         max /= 10;
         ++digits;
     }
-    if(startpaint == 0) digits = 0;
+    if(paintstate == 0) digits = 0;
     #if (QT_VERSION >= QT_VERSION_CHECK(5,11,0)) //QT5.11版本之后才有horizontalAdvance
     int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
     #else
@@ -57,6 +57,8 @@ void TextEditor::resizeEvent(QResizeEvent *e)
 
     QRect cr = contentsRect();
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+
+    if(paintstate == 1) verticalScrollBar()->setSliderPosition(verticalScrollBar()->maximum());
 }
 
 void TextEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
@@ -72,7 +74,7 @@ void TextEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 
     while (block.isValid() && top <= event->rect().bottom())
     {
-        if (block.isVisible() && bottom >= event->rect().top() && startpaint == 1)
+        if (block.isVisible() && bottom >= event->rect().top() && paintstate >= 1)
         {
             QString number = QString::number(actualnumber);
             if(!greyline.contains(blockNumber + 1))
