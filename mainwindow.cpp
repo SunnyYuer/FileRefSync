@@ -61,6 +61,7 @@ void MainWindow::on_button1_clicked()
     QString lastPath = setting.value("File1Path").toString();
     if(lastPath.isEmpty()) lastPath = "./";
     QString s = QFileDialog::getOpenFileName(this,"选择文件",lastPath,"files(*.*)");
+    if(s.isEmpty()) return;
     ui->lineEdit1->setText(s);
     if(!s.isEmpty()) setting.setValue("File1Path",s);
 }
@@ -71,6 +72,7 @@ void MainWindow::on_button2_clicked()
     QString lastPath = setting.value("File2Path").toString();
     if(lastPath.isEmpty()) lastPath = "./";
     QString s = QFileDialog::getOpenFileName(this,"选择文件",lastPath,"files(*.*)");
+    if(s.isEmpty()) return;
     ui->lineEdit2->setText(s);
     if(!s.isEmpty()) setting.setValue("File2Path",s);
 }

@@ -57,7 +57,7 @@ void TextEditor::resizeEvent(QResizeEvent *e)
 
     QRect cr = contentsRect();
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
-
+    //滚动条滑到最后
     if(paintstate == 1) verticalScrollBar()->setSliderPosition(verticalScrollBar()->maximum());
 }
 
