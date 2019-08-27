@@ -15,6 +15,7 @@ TextEditor::TextEditor(QWidget *parent) :
 void TextEditor::setPaintState(int sp)
 {//0未开始，1开始，2完成
     paintstate = sp;
+    if(paintstate == 2) updateRequest(rect(), 0);//完成时强制绘制
 }
 
 int TextEditor::lineNumberAreaWidth()
@@ -26,7 +27,7 @@ int TextEditor::lineNumberAreaWidth()
         max /= 10;
         ++digits;
     }
-    if(paintstate == 0) digits = 0;
+    //if(paintstate == 0) digits = 0;
     #if (QT_VERSION >= QT_VERSION_CHECK(5,11,0)) //QT5.11版本之后才有horizontalAdvance
     int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
     #else
@@ -41,11 +42,11 @@ void TextEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
 }
 
 void TextEditor::updateLineNumberArea(const QRect &rect, int dy)
-{
+{//rect：当前需要重绘的区域
     if (dy)
         lineNumberArea->scroll(0, dy);
     else
-        lineNumberArea->update(0, rect.y(), lineNumberArea->width(), rect.height());
+        lineNumberArea->update(0, rect.y(), lineNumberArea->width(), rect.height());//更新行号区域
 
     if (rect.contains(viewport()->rect()))
         updateLineNumberAreaWidth(0);
