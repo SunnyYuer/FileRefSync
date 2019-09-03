@@ -1,5 +1,5 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "filediff.h"
+#include "ui_filediff.h"
 #include "uchardet/uchardet.h"
 #include <QFileDialog>
 #include <QMessageBox>
@@ -8,9 +8,9 @@
 #include <QSettings>
 #include <QDebug>
 
-MainWindow::MainWindow(QWidget *parent) :
+FileDiff::FileDiff(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::FileDiff)
 {
     ui->setupUi(this);
 
@@ -23,12 +23,12 @@ MainWindow::MainWindow(QWidget *parent) :
     time.start();
 }
 
-MainWindow::~MainWindow()
+FileDiff::~FileDiff()
 {
     delete ui;
 }
 
-void MainWindow::showtext(QString s)
+void FileDiff::showtext(QString s)
 {
     QMessageBox msg(this);
     msg.setWindowTitle("提示");
@@ -37,7 +37,7 @@ void MainWindow::showtext(QString s)
     msg.exec();
 }
 
-void MainWindow::showtext(int n)
+void FileDiff::showtext(int n)
 {
     QMessageBox msg(this);
     msg.setWindowTitle("提示");
@@ -46,7 +46,7 @@ void MainWindow::showtext(int n)
     msg.exec();
 }
 
-void MainWindow::showtext(double n)
+void FileDiff::showtext(double n)
 {
     QMessageBox msg(this);
     msg.setWindowTitle("提示");
@@ -55,7 +55,7 @@ void MainWindow::showtext(double n)
     msg.exec();
 }
 
-void MainWindow::on_button1_clicked()
+void FileDiff::on_button1_clicked()
 {
     QSettings setting("./Setting.ini", QSettings::IniFormat);
     QString lastPath = setting.value("File1Path").toString();
@@ -66,7 +66,7 @@ void MainWindow::on_button1_clicked()
     if(!s.isEmpty()) setting.setValue("File1Path",s);
 }
 
-void MainWindow::on_button2_clicked()
+void FileDiff::on_button2_clicked()
 {
     QSettings setting("./Setting.ini", QSettings::IniFormat);
     QString lastPath = setting.value("File2Path").toString();
@@ -77,7 +77,7 @@ void MainWindow::on_button2_clicked()
     if(!s.isEmpty()) setting.setValue("File2Path",s);
 }
 
-const char *MainWindow::detectEncoding(QString fname)
+const char *FileDiff::detectEncoding(QString fname)
 {//使用开源代码uchardet
     uchardet_t  handle = uchardet_new();
     const char *charset = "";
@@ -108,7 +108,7 @@ const char *MainWindow::detectEncoding(QString fname)
     return charset;
 }
 
-int MainWindow::getfilelist()
+int FileDiff::getfilelist()
 {
     QString s1 = ui->lineEdit1->text();
     QFile file1(s1);
@@ -148,7 +148,7 @@ int MainWindow::getfilelist()
     return 1;
 }
 
-void MainWindow::setTextColor(int texteditnum, const QColor &color)
+void FileDiff::setTextColor(int texteditnum, const QColor &color)
 {
     QTextCharFormat fmt;//文本字符格式
     fmt.setBackground(color);// 设为color色
@@ -156,7 +156,7 @@ void MainWindow::setTextColor(int texteditnum, const QColor &color)
     if(texteditnum == 2) ui->plainTextEdit2->mergeCurrentCharFormat(fmt);//textEdit使用当前的字符格式
 }
 
-void MainWindow::hilightLines(int texteditnum, const QColor &color, int &emptyhl, int rep)
+void FileDiff::hilightLines(int texteditnum, const QColor &color, int &emptyhl, int rep)
 {
     QList<QTextEdit::ExtraSelection> extraSelections;//提供一种方式显示选择的文本
     int currentline;
@@ -193,7 +193,7 @@ void MainWindow::hilightLines(int texteditnum, const QColor &color, int &emptyhl
     if(texteditnum == 2) ui->plainTextEdit2->setExtraSelections(extraSelections);//设置高亮
 }
 
-QMap<int, int> MainWindow::lcs()
+QMap<int, int> FileDiff::lcs()
 {
     QMap<int, int> matchmap;
     QString linetext1;
@@ -270,7 +270,7 @@ QMap<int, int> MainWindow::lcs()
     return matchmap;
 }
 
-QMap<int, int> MainWindow::lcsx()
+QMap<int, int> FileDiff::lcsx()
 {//采用自主改进的LCSX算法
     QMap<int, int> matchmap;
     QString linetext1;
@@ -431,7 +431,7 @@ QMap<int, int> MainWindow::lcsx()
     return matchmap;
 }
 
-void MainWindow::on_btncon_clicked()
+void FileDiff::on_btncon_clicked()
 {
     qDebug()<<"获取filelist开始"<<time.elapsed()/1000.0<<"s";
     if(!getfilelist()) return;
@@ -538,12 +538,12 @@ void MainWindow::on_btncon_clicked()
     ui->plainTextEdit2->setPaintState(2);
 }
 
-void MainWindow::scrolbar1Moved(int value)
+void FileDiff::scrolbar1Moved(int value)
 {  //鼠标按住滚动条移动才会调用
     scrolbar2->setValue(value);
 }
 
-void MainWindow::scrolbar2Moved(int value)
+void FileDiff::scrolbar2Moved(int value)
 {
     scrolbar1->setValue(value);
 }

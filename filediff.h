@@ -1,21 +1,21 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef FIlEDIFF_H
+#define FIlEDIFF_H
 
 #include <QMainWindow>
 #include <QScrollBar>
 #include <QTime>
 
 namespace Ui {
-class MainWindow;
+class FileDiff;
 }
 
-class MainWindow : public QMainWindow
+class FileDiff : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit FileDiff(QWidget *parent = 0);
+    ~FileDiff();
 
     void showtext(QString s);
     void showtext(int n);
@@ -35,7 +35,7 @@ private slots:
     void scrolbar2Moved(int value);
 
 private:
-    Ui::MainWindow *ui;
+    Ui::FileDiff *ui;
 
     QScrollBar *scrolbar1;
     QScrollBar *scrolbar2;
@@ -44,4 +44,4 @@ private:
     QTime time;
 };
 
-#endif // MAINWINDOW_H
+#endif // FIlEDIFF_H
