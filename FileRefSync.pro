@@ -14,6 +14,8 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     filediff.cpp \
+    mainwindow.cpp \
+    messagebox.cpp \
     uchardet/LangModels/LangArabicModel.cpp \
     uchardet/LangModels/LangBulgarianModel.cpp \
     uchardet/LangModels/LangCroatianModel.cpp \
@@ -67,6 +69,8 @@ SOURCES += main.cpp\
 
 HEADERS  += \
     filediff.h \
+    mainwindow.h \
+    messagebox.h \
     uchardet/uchardet.h \
     uchardet/CharDistribution.h \
     uchardet/JpCntx.h \
@@ -92,7 +96,8 @@ HEADERS  += \
     texteditor.h
 
 FORMS    += \
-    filediff.ui
+    filediff.ui \
+    mainwindow.ui
 
 RC_ICONS = FileRefSync.ico
 

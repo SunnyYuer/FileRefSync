@@ -8,7 +8,7 @@ class TextEditor : public QPlainTextEdit
 {
     Q_OBJECT
 public:
-    explicit TextEditor(QWidget *parent = 0);
+    explicit TextEditor(QWidget *parent = nullptr);
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();

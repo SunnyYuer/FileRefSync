@@ -2,7 +2,6 @@
 #include "ui_filediff.h"
 #include "uchardet/uchardet.h"
 #include <QFileDialog>
-#include <QMessageBox>
 #include <QTextStream>
 #include <QColor>
 #include <QSettings>
@@ -14,6 +13,7 @@ FileDiff::FileDiff(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    messageBox = new MessageBox(this);
     scrolbar1 = ui->plainTextEdit1->verticalScrollBar();
     scrolbar2 = ui->plainTextEdit2->verticalScrollBar();
     connect(static_cast<QWidget*>(scrolbar1), SIGNAL(sliderMoved(int)), this,  SLOT(scrolbar1Moved(int)));
@@ -28,33 +28,6 @@ FileDiff::~FileDiff()
     delete ui;
 }
 
-void FileDiff::showtext(QString s)
-{
-    QMessageBox msg(this);
-    msg.setWindowTitle("提示");
-    msg.setText(s);
-    msg.setStandardButtons(QMessageBox::Ok);
-    msg.exec();
-}
-
-void FileDiff::showtext(int n)
-{
-    QMessageBox msg(this);
-    msg.setWindowTitle("提示");
-    msg.setText(QString::number(n));
-    msg.setStandardButtons(QMessageBox::Ok);
-    msg.exec();
-}
-
-void FileDiff::showtext(double n)
-{
-    QMessageBox msg(this);
-    msg.setWindowTitle("提示");
-    msg.setText(QString::number(n));
-    msg.setStandardButtons(QMessageBox::Ok);
-    msg.exec();
-}
-
 void FileDiff::on_button1_clicked()
 {
     QSettings setting("./Setting.ini", QSettings::IniFormat);
@@ -63,7 +36,7 @@ void FileDiff::on_button1_clicked()
     QString s = QFileDialog::getOpenFileName(this,"选择文件",lastPath,"files(*.*)");
     if(s.isEmpty()) return;
     ui->lineEdit1->setText(s);
-    if(!s.isEmpty()) setting.setValue("File1Path",s);
+    setting.setValue("File1Path",s);
 }
 
 void FileDiff::on_button2_clicked()
@@ -74,7 +47,7 @@ void FileDiff::on_button2_clicked()
     QString s = QFileDialog::getOpenFileName(this,"选择文件",lastPath,"files(*.*)");
     if(s.isEmpty()) return;
     ui->lineEdit2->setText(s);
-    if(!s.isEmpty()) setting.setValue("File2Path",s);
+    setting.setValue("File2Path",s);
 }
 
 const char *FileDiff::detectEncoding(QString fname)
@@ -94,7 +67,7 @@ const char *FileDiff::detectEncoding(QString fname)
         int retval = uchardet_handle_data(handle, buffer, len);
         if (retval != 0)
         {
-            showtext("uchardet错误");
+            messageBox->showtext("uchardet错误");
             return charset;
         }
     }
@@ -114,14 +87,14 @@ int FileDiff::getfilelist()
     QFile file1(s1);
     if(!file1.exists())
     {
-        showtext("文件1不存在");
+        messageBox->showtext("文件1不存在");
         return 0;
     }
     QString s2 = ui->lineEdit2->text();
     QFile file2(s2);
     if(!file2.exists())
     {
-        showtext("文件2不存在");
+        messageBox->showtext("文件2不存在");
         return 0;
     }
 

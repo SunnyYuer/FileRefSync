@@ -1,6 +1,7 @@
 #ifndef FIlEDIFF_H
 #define FIlEDIFF_H
 
+#include "messagebox.h"
 #include <QMainWindow>
 #include <QScrollBar>
 #include <QTime>
@@ -14,12 +15,9 @@ class FileDiff : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit FileDiff(QWidget *parent = 0);
+    explicit FileDiff(QWidget *parent = nullptr);
     ~FileDiff();
 
-    void showtext(QString s);
-    void showtext(int n);
-    void showtext(double n);
     int getfilelist();
     const char *detectEncoding(QString buffer);
     QMap<int, int> lcs();
@@ -42,6 +40,7 @@ private:
     QStringList filelist1;  //文件1
     QStringList filelist2;  //文件2
     QTime time;
+    MessageBox *messageBox;
 };
 
 #endif // FIlEDIFF_H
