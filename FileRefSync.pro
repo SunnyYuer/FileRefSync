@@ -14,6 +14,7 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     filediff.cpp \
+    folderdiff.cpp \
     mainwindow.cpp \
     messagebox.cpp \
     uchardet/LangModels/LangArabicModel.cpp \
@@ -69,6 +70,7 @@ SOURCES += main.cpp\
 
 HEADERS  += \
     filediff.h \
+    folderdiff.h \
     mainwindow.h \
     messagebox.h \
     uchardet/uchardet.h \
@@ -97,6 +99,7 @@ HEADERS  += \
 
 FORMS    += \
     filediff.ui \
+    folderdiff.ui \
     mainwindow.ui
 
 RC_ICONS = FileRefSync.ico

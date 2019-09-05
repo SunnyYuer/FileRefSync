@@ -1,7 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "filediff.h"
 #include <QMainWindow>
 
 namespace Ui {
@@ -18,6 +17,8 @@ public:
 
 private slots:
     void on_filediffButton_clicked();
+
+    void on_folderdiffButton_clicked();
 
 private:
     Ui::MainWindow *ui;

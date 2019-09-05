@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FolderDiff</class>
+ <widget class="QWidget" name="FolderDiff">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1050</width>
+    <height>559</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>文件夹比较</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label1">
+       <property name="text">
+        <string>文件夹1:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit1"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button1">
+       <property name="text">
+        <string>选择文件夹</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label2">
+       <property name="text">
+        <string>文件夹2:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit2"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button2">
+       <property name="text">
+        <string>选择文件夹</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QPushButton" name="btndiff">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>开始比较</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QTreeWidget" name="treeWidget1">
+       <property name="columnCount">
+        <number>3</number>
+       </property>
+       <column>
+        <property name="text">
+         <string>名称</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>大小</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>修改时间</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTreeWidget" name="treeWidget2">
+       <property name="columnCount">
+        <number>3</number>
+       </property>
+       <column>
+        <property name="text">
+         <string>名称</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>大小</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>修改时间</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
