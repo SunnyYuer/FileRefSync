@@ -108,3 +108,6 @@ ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 DISTFILES += \
     android/AndroidManifest.xml
+
+RESOURCES += \
+    image.qrc
