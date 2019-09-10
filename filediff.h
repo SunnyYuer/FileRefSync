@@ -2,15 +2,15 @@
 #define FIlEDIFF_H
 
 #include "messagebox.h"
-#include <QMainWindow>
 #include <QScrollBar>
 #include <QTime>
+#include <QWidget>
 
 namespace Ui {
 class FileDiff;
 }
 
-class FileDiff : public QMainWindow
+class FileDiff : public QWidget
 {
     Q_OBJECT
 
@@ -34,7 +34,6 @@ private slots:
 
 private:
     Ui::FileDiff *ui;
-
     QScrollBar *scrolbar1;
     QScrollBar *scrolbar2;
     QStringList filelist1;  //文件1

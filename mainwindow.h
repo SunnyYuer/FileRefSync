@@ -17,7 +17,6 @@ public:
 
 private slots:
     void on_filediffButton_clicked();
-
     void on_folderdiffButton_clicked();
 
 private:

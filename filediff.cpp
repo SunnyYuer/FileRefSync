@@ -8,7 +8,7 @@
 #include <QDebug>
 
 FileDiff::FileDiff(QWidget *parent) :
-    QMainWindow(parent),
+    QWidget(parent),
     ui(new Ui::FileDiff)
 {
     ui->setupUi(this);
