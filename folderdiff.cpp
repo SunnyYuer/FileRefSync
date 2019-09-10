@@ -138,6 +138,12 @@ bool FolderDiff::fileCompare(QFileInfo fileinfo1, QFileInfo fileinfo2)
     return sha256file1==sha256file2;
 }
 
+bool FolderDiff::linkCompare(QFileInfo fileinfo1, QFileInfo fileinfo2)
+{
+    //qDebug()<<fileinfo1.symLinkTarget()<<fileinfo2.symLinkTarget();
+    return fileinfo1.symLinkTarget()==fileinfo2.symLinkTarget();
+}
+
 QMap<int, int> FolderDiff::getMatchMap(QList<QFileInfo> list1, QList<QFileInfo> list2)
 {
     QMap<int, int> matchmap;
@@ -235,7 +241,11 @@ void FolderDiff::on_btndiff_clicked()
                 if(j == it.value() && j != filelist2.length())
                 {
                     bool diff = false;
-                    if(filetype == 1) diff = !fileCompare(filelist1[i], filelist2[j]);
+                    if(filelist1[i].isSymLink()) diff = !linkCompare(filelist1[i], filelist2[j]);
+                    else
+                    {
+                        if(filetype == 1) diff = !fileCompare(filelist1[i], filelist2[j]);
+                    }
                     QTreeWidgetItem *item1 = new QTreeWidgetItem(ui->treeWidget1, fileinfolist(filelist1[i]));
                     setItemIcon(item1, filetype);
                     if(diff) item1->setBackground(0, QColor(0, 162, 232));//蓝色

@@ -25,6 +25,7 @@ public:
     QStringList fileinfolist(QFileInfo fileinfo);
     void setItemIcon(QTreeWidgetItem *item, int filetype);
     bool fileCompare(QFileInfo fileinfo1, QFileInfo fileinfo2);
+    bool linkCompare(QFileInfo fileinfo1, QFileInfo fileinfo2);
     QMap<int, int> getMatchMap(QList<QFileInfo> list1, QList<QFileInfo> list2);
 
 private slots:
