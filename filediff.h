@@ -1,7 +1,6 @@
 #ifndef FIlEDIFF_H
 #define FIlEDIFF_H
 
-#include "messagebox.h"
 #include <QScrollBar>
 #include <QTime>
 #include <QWidget>

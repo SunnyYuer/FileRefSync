@@ -1,5 +1,6 @@
 #include "filediff.h"
 #include "ui_filediff.h"
+#include "messagebox.h"
 #include "uchardet/uchardet.h"
 #include <QFileDialog>
 #include <QTextStream>

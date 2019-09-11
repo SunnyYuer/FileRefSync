@@ -1,7 +1,6 @@
 #ifndef FOLDERDIFF_H
 #define FOLDERDIFF_H
 
-#include "messagebox.h"
 #include <QFileDialog>
 #include <QScrollBar>
 #include <QTreeWidgetItem>

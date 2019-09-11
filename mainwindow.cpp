@@ -1,8 +1,8 @@
-#include "filediff.h"
-#include "folderdiff.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QMessageBox>
+#include "filediff.h"
+#include "folderdiff.h"
+#include "messagebox.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :

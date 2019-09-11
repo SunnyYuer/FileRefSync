@@ -1,5 +1,6 @@
 #include "folderdiff.h"
 #include "ui_folderdiff.h"
+#include "messagebox.h"
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QSettings>
