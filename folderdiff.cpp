@@ -230,12 +230,14 @@ void FolderDiff::on_btndiff_clicked()
                 }
                 while(addline > 0)
                 {
-                    new QTreeWidgetItem(ui->treeWidget1, QStringList(""));
+                    QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget1, QStringList(""));
+                    setItemIcon(item, filetype);
                     addline--;
                 }
                 while(delline > 0)
                 {
-                    new QTreeWidgetItem(ui->treeWidget2, QStringList(""));
+                    QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget2, QStringList(""));
+                    setItemIcon(item, filetype);
                     delline--;
                 }
                 if(j == it.value() && j != filelist2.length())
