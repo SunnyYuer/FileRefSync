@@ -35,5 +35,8 @@ void MainWindow::on_folderdiffButton_clicked()
 
 void MainWindow::on_btnabout_clicked()
 {
-    MessageBox::showtext(this, "关于", "123");
+    QString text = "";
+    text.append("版本号：" + version + "\n");
+    text.append("作者：" + author);
+    MessageBox::showtext(this, "关于", text);
 }
