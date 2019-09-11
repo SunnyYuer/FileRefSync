@@ -200,7 +200,7 @@ void FolderDiff::on_btndiff_clicked()
                 {
                     QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget1, fileinfolist(filelist1[i]));
                     setItemIcon(item, filetype);
-                    item->setBackground(0, QColor(255, 210, 210));//红色
+                    item->setForeground(0, QColor(237, 28, 36));//红色
                     delline++;
                     i++;
                 }
@@ -213,7 +213,7 @@ void FolderDiff::on_btndiff_clicked()
                     {
                         QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget2, fileinfolist(filelist2[j]));
                         setItemIcon(item, filetype);
-                        item->setBackground(0, QColor(210, 255, 210));//绿色
+                        item->setForeground(0, QColor(34, 177, 76));//绿色
                         addline++;
                         j++;
                     }
@@ -248,10 +248,10 @@ void FolderDiff::on_btndiff_clicked()
                     }
                     QTreeWidgetItem *item1 = new QTreeWidgetItem(ui->treeWidget1, fileinfolist(filelist1[i]));
                     setItemIcon(item1, filetype);
-                    if(diff) item1->setBackground(0, QColor(0, 162, 232));//蓝色
+                    if(diff) item1->setForeground(0, QColor(0, 162, 232));//蓝色
                     QTreeWidgetItem *item2 = new QTreeWidgetItem(ui->treeWidget2, fileinfolist(filelist2[j]));
                     setItemIcon(item2, filetype);
-                    if(diff) item2->setBackground(0, QColor(0, 162, 232));//蓝色
+                    if(diff) item2->setForeground(0, QColor(0, 162, 232));//蓝色
                     QApplication::processEvents();
                     i++;
                     j++;
