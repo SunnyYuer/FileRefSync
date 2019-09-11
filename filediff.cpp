@@ -12,8 +12,6 @@ FileDiff::FileDiff(QWidget *parent) :
     ui(new Ui::FileDiff)
 {
     ui->setupUi(this);
-
-    messageBox = new MessageBox(this);
     scrolbar1 = ui->plainTextEdit1->verticalScrollBar();
     scrolbar2 = ui->plainTextEdit2->verticalScrollBar();
     connect(static_cast<QWidget*>(scrolbar1), SIGNAL(sliderMoved(int)), this,  SLOT(scrolbar1Moved(int)));
@@ -67,7 +65,7 @@ const char *FileDiff::detectEncoding(QString fname)
         int retval = uchardet_handle_data(handle, buffer, len);
         if (retval != 0)
         {
-            messageBox->showtext("uchardet错误");
+            MessageBox::showtext(this, "提示", "uchardet错误");
             return charset;
         }
     }
@@ -87,14 +85,14 @@ int FileDiff::getfilelist()
     QFile file1(s1);
     if(!file1.exists())
     {
-        messageBox->showtext("文件1不存在");
+        MessageBox::showtext(this, "提示", "文件1不存在");
         return 0;
     }
     QString s2 = ui->lineEdit2->text();
     QFile file2(s2);
     if(!file2.exists())
     {
-        messageBox->showtext("文件2不存在");
+        MessageBox::showtext(this, "提示", "文件2不存在");
         return 0;
     }
 

@@ -39,7 +39,6 @@ private:
     QStringList filelist1;  //文件1
     QStringList filelist2;  //文件2
     QTime time;
-    MessageBox *messageBox;
 };
 
 #endif // FIlEDIFF_H

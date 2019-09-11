@@ -37,7 +37,6 @@ private slots:
 
 private:
     Ui::FolderDiff *ui;
-    MessageBox *messageBox;
     QTime time;
     QScrollBar *scrolbar1;
     QScrollBar *scrolbar2;

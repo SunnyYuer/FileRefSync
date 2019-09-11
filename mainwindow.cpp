@@ -2,6 +2,7 @@
 #include "folderdiff.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QMessageBox>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -30,4 +31,9 @@ void MainWindow::on_folderdiffButton_clicked()
     ui->tabWidget->insertTab(tabnum, folderdiff, "文件夹比较");
     ui->tabWidget->setCurrentIndex(tabnum);
     tabnum++;
+}
+
+void MainWindow::on_btnabout_clicked()
+{
+    MessageBox::showtext(this, "关于", "123");
 }

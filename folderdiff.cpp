@@ -10,7 +10,6 @@ FolderDiff::FolderDiff(QWidget *parent) :
     ui(new Ui::FolderDiff)
 {
     ui->setupUi(this);
-    messageBox = new MessageBox(this);
     scrolbar1 = ui->treeWidget1->verticalScrollBar();
     scrolbar2 = ui->treeWidget2->verticalScrollBar();
     connect(static_cast<QWidget*>(scrolbar1), SIGNAL(sliderMoved(int)), this,  SLOT(scrolbar1Moved(int)));
@@ -53,14 +52,14 @@ int FolderDiff::checklineEdit()
     QDir dir1(s1);
     if(s1.isEmpty() || !dir1.exists())
     {
-        messageBox->showtext("文件夹1不存在");
+        MessageBox::showtext(this, "提示", "文件夹1不存在");
         return 0;
     }
     QString s2 = ui->lineEdit2->text();
     QDir dir2(s2);
     if(s2.isEmpty() || !dir2.exists())
     {
-        messageBox->showtext("文件夹2不存在");
+        MessageBox::showtext(this, "提示", "文件夹2不存在");
         return 0;
     }
     return 1;

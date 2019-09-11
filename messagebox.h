@@ -4,16 +4,13 @@
 #include <QDialog>
 #include <QString>
 
-class MessageBox : public QDialog
+class MessageBox
 {
 public:
-    explicit MessageBox(QWidget *parent);//父控件不设置为空
-    void showtext(QString s);
-    void showtext(int n);
-    void showtext(double n);
-
-private:
-    QWidget *parentWidget;
+    MessageBox();
+    static void showtext(QWidget *parent, QString title, QString text);
+    static void showtext(QWidget *parent, QString title, int text);
+    static void showtext(QWidget *parent, QString title, double text);
 };
 
 #endif // MESSAGEBOX_H

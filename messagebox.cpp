@@ -1,35 +1,22 @@
 #include "messagebox.h"
 #include <QMessageBox>
 
-MessageBox::MessageBox(QWidget *parent) :
-    QDialog(parent)
+MessageBox::MessageBox()
 {
-    parentWidget = parent;
+
 }
 
-void MessageBox::showtext(QString s)
+void MessageBox::showtext(QWidget *parent, QString title, QString text)
 {
-    QMessageBox msg(parentWidget);
-    msg.setWindowTitle("提示");
-    msg.setText(s);
-    msg.setStandardButtons(QMessageBox::Ok);
-    msg.exec();
+    QMessageBox::about(parent, title, text);
 }
 
-void MessageBox::showtext(int n)
+void MessageBox::showtext(QWidget *parent, QString title, int text)
 {
-    QMessageBox msg(parentWidget);
-    msg.setWindowTitle("提示");
-    msg.setText(QString::number(n));
-    msg.setStandardButtons(QMessageBox::Ok);
-    msg.exec();
+    QMessageBox::about(parent, title, QString::number(text));
 }
 
-void MessageBox::showtext(double n)
+void MessageBox::showtext(QWidget *parent, QString title, double text)
 {
-    QMessageBox msg(parentWidget);
-    msg.setWindowTitle("提示");
-    msg.setText(QString::number(n));
-    msg.setStandardButtons(QMessageBox::Ok);
-    msg.exec();
+    QMessageBox::about(parent, title, QString::number(text));
 }

@@ -18,6 +18,7 @@ public:
 private slots:
     void on_filediffButton_clicked();
     void on_folderdiffButton_clicked();
+    void on_btnabout_clicked();
 
 private:
     Ui::MainWindow *ui;
