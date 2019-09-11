@@ -20,6 +20,7 @@ void MainWindow::on_filediffButton_clicked()
 {
     FileDiff *filediff = new FileDiff();
     ui->tabWidget->insertTab(tabnum, filediff, "文件比较");
+    ui->tabWidget->setCurrentIndex(tabnum);
     tabnum++;
 }
 
@@ -27,5 +28,6 @@ void MainWindow::on_folderdiffButton_clicked()
 {
     FolderDiff *folderdiff = new FolderDiff();
     ui->tabWidget->insertTab(tabnum, folderdiff, "文件夹比较");
+    ui->tabWidget->setCurrentIndex(tabnum);
     tabnum++;
 }
