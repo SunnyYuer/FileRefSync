@@ -23,7 +23,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     int tabnum = 1;
-    QString version = "0.8.1";
+    QString version = "0.8.2";
     QString author = "Yuer";
 };
 
